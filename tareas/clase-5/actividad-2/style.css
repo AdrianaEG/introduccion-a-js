@@ -1,0 +1,16 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+form{
+    display: inline-grid;
+    width: 500px;
+}
+
+input{
+    padding: 1em;
+    margin-bottom: 2em;
+}
+
+
