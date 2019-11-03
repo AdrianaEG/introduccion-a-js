@@ -7,7 +7,7 @@
 // <strong> pre-creado el tiempo total de los videos.
 
 function validarCampoCantidad(cantidad){
-    if(cantidad<=0){
+    if(cantidad<1){
         return true;
     }
 }
@@ -15,6 +15,7 @@ function validarCampoCantidad(cantidad){
 
 const $botonComenzar = document.querySelector('#comenzar');
 const $botonCalcular = document.querySelector('#calcular');
+const $botonSumar = document.querySelector('#sumar');
 
 let totalHoras = 0;
 let totalMinutos = 0;
@@ -24,7 +25,8 @@ let contadorDeClicks = 0;
 
 
 $botonComenzar.onclick = function(){
-    const $cantDeVideos = Number(document.querySelector('#cantidad').value);    
+    const $cantDeVideos = parseInt(Number(document.querySelector('#cantidad').value),10);
+    console.log($cantDeVideos);
     if(validarCampoCantidad($cantDeVideos)){
         alert("POR FAVOR INGRESE UNA CANTIDAD DE VIDEOS VALIDA");
         return true;
@@ -34,11 +36,9 @@ $botonComenzar.onclick = function(){
     document.querySelector('#comenzar').style.display = 'none';//oculta el boton al hacerle click
 }
 
-
-$botonCalcular.onclick = function(){
-    
+$botonSumar.onclick = function(){
     let todosLosDatos = "";
-    const $cantidadDeVideos = Number(document.querySelector('#cantidad').value);
+    const $cantidadDeVideos = parseInt(Number(document.querySelector('#cantidad').value),10);
     
     let $horas = Number(document.querySelector('#horas').value);
     let $minutos = Number(document.querySelector('#minutos').value);
@@ -50,11 +50,12 @@ $botonCalcular.onclick = function(){
     
     contadorDeClicks++; 
     
-    
-    
-    
     if($cantidadDeVideos == contadorDeClicks){
-        $botonCalcular.disabled = true;
+        $botonSumar.disabled = true;
+        $botonCalcular.disabled = false;
+    }
+    
+    $botonCalcular.onclick = function(){
         
         if(totalSegundos>60){
             totalMinutos = parseInt(totalMinutos+(totalSegundos/60), 10);
@@ -68,10 +69,7 @@ $botonCalcular.onclick = function(){
         
         todosLosDatos = `La duración total es ${totalHoras} horas, ${totalMinutos} minutos, ${totalSegundos} segundos`;
         document.querySelector('#muestra-tiempo').innerText = todosLosDatos;
+        return false;
     }
-
-    return false;
+return false;    
 }
-
-
-
