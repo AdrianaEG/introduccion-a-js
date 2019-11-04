@@ -6,65 +6,78 @@
 // Y va a cambiar el <h1> para decir "Bienvenido, nombreDeUsuario"!
 
 
-
-const $botonMuestraTodo = document.querySelector('#mostrar-informacion');
-
-$botonMuestraTodo.onclick = function(){
-    const $nombre = document.querySelector('#primer-nombre').value;
-    const $segundoNombre = document.querySelector('#segundo-nombre').value;
-    const $apellido = document.querySelector('#apellido').value;
-    const $edad = document.querySelector('#edad').value;
-    
-    let $titulo = document.querySelector('h1');
-    let todosLosDatos = "";
-    
-    if((validarFormulario($nombre) == true) || (validarFormulario($segundoNombre)== true) || (validarFormulario($apellido)== true)) {
-        alert("Por favor ingrese los nombres y apellidos sin espacios en blancos ni caracteres");
-        return true;
-    }
-    
-    if(validarEdad($edad)){
-        alert("Por favor ingrese una edad válida");
-        return true;
-    }
-
-    $titulo.innerText = $titulo.innerText + " " + $nombre;
-    
-    todosLosDatos = `Tu nombre es ${$nombre} ${$segundoNombre} ${$apellido} y tenés ${$edad} años.`;
-    //todosLosDatos = "Tu nombre es " + $nombre + " " + $segundoNombre + " " + $apellido + " y tenes " + $edad + " años.";
-    
-    document.querySelector('#muestra-todo').innerText = todosLosDatos;
-    
-    return false;     
-}
-
-
-function validarFormulario(texto){//el texto es el pNombre, Snombre, appelido
-    let numerosYSimbolos = " 0123456789/*-+;,"
+function validarInput(texto){//el texto es el pNombre, Snombre, appelido
+    let numerosYSimbolos = " 0123456789/*-+;,?_"
     if(texto.length == 0){
-        return true;
+        alert("Por favor ingrese los nombres y el apellido sin espacio ni caracteres");
+        return false;//me devuelve false si el input está vacío
     }
     
     for(let i=0; i<texto.length; i++){
         if(numerosYSimbolos.indexOf(texto.charAt(i),0)!=-1){
             i=texto.length;
             //console.log("INGRESA SOLO LETRAS SIN ESPACIOS");
-            return true;
-        }
+            alert("Por favor ingrese los nombres y el apellido sin espacio ni caracteres");
+            return false;//me devuelve false si el input contiene numeros y/o simbolos        }
+        }    
     }
+    return true;
+
 }
 
 function validarEdad(edad){
     if(edad.length == 0){
-        return true;
+        alert("Por favor ingrese una edad válida");
+        return false;
     }
     else if((edad<=0) || (edad>=120)){
-        return true;
+        alert("Por favor ingrese una edad válida");
+        return false;
     }
+    return true;
 }
 
+function validarFormulario(nombre, segundoNombre, apellido, edad){
+    if(!validarInput(nombre)){
+        return false;
+    }
+    if(!validarInput(segundoNombre)){
+        return false;
+    }
+    if(!validarInput(apellido)){
+        return false;
+    }
+    
+    if(!validarEdad(edad)){
+        
+        return false;
+    }
+    
+    return true;
+}
 
+    
+const $botonMuestraTodo = document.querySelector('#mostrar-informacion');
 
+$botonMuestraTodo.onclick = function(){
+    const nombre = document.querySelector('#primer-nombre').value;
+    const segundoNombre = document.querySelector('#segundo-nombre').value;
+    const apellido = document.querySelector('#apellido').value;
+    const edad = document.querySelector('#edad').value;
+    
+    let $titulo = document.querySelector('h1');
+    let todosLosDatos = "";
+    
+    if(!validarFormulario(nombre, segundoNombre, apellido, edad)){
+        location.reload(); //si validarFormulario me devuelve false es decir o la edad es negativa o muy grande o los nombres o apellidos tienen espacios, números o caracteres raros entonces recarga la página.
+    }
 
-
-
+    $titulo.innerText = $titulo.innerText + " " + nombre;
+    
+    todosLosDatos = `Tu nombre es ${nombre} ${segundoNombre} ${apellido} y tenés ${edad} años.`;
+    //todosLosDatos = "Tu nombre es " + $nombre + " " + $segundoNombre + " " + $apellido + " y tenes " + $edad + " años.";
+    
+    document.querySelector('#muestra-todo').innerText = todosLosDatos;
+    
+    return false;     
+}
