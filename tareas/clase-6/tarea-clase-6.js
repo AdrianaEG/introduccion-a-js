@@ -14,3 +14,47 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente el mayor sala
 
 Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como 0).
 */
+
+const $botonComenzar = document.querySelector('#comenzar');
+
+
+function mayorEdad(edades){
+    let mayor = edades[0];
+    console.log(edades[0]);
+    for(let i=0; i<edades.length; i++){
+        if(edades[i]>mayor){
+            mayor = edades[i];
+        }
+    }
+    return mayor;
+}
+
+$botonComenzar.onclick = function(){
+    
+    const $cantidadDeIntegrantes = Number(document.querySelector('#cantidad-integrantes').value);
+    
+    for(let i=1; i<=$cantidadDeIntegrantes; i++){
+        const nuevoLabel = document.createElement('label');
+        const textoDelLabel = document.createTextNode('Ingrese edad del integrante ' + i);
+        nuevoLabel.appendChild(textoDelLabel);
+        document.querySelector('body').appendChild(nuevoLabel);
+        
+        const inputEdad = document.createElement('input');
+        inputEdad.type = "text";
+        inputEdad.className = "edad";
+        document.querySelector('body').appendChild(inputEdad);
+        
+    }
+    
+    const botonCalcular = document.querySelector('#calcular');
+    
+    botonCalcular.onclick = function(){
+        
+        const edades = Number(document.querySelectorAll('.edad'));
+        console.log(mayorEdad(edades));
+        
+        return false;
+    }
+    
+    return false;
+}
