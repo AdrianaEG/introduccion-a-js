@@ -17,18 +17,31 @@ $botonCalcular.onclick = function()
 //TAREA: crear un formulario donde un usuario pueda ingresar su salario anual.
 //cuando el usuario haga click en el botón "calcular", mostrar el salario mensual
 // en una caja de texto deshabilitada. --> <input type="text" disabled id="salario-mensual"/>
-
-const $botonCalcular = document.querySelector('#boton-calcular');
-
-$botonCalcular.onclick = function(){ 
-    const $salarioAnual = Number(document.querySelector('#salario-anual').value);
-    document.querySelector('#salario-mensual').value = calcularSalarioMensual($salarioAnual);
-    
-    return false;
-}
-
 function calcularSalarioMensual(salarioAnual){
     const meses = 12;
     return (salarioAnual/meses).toFixed(2);
 }
 
+function validarSalario(salarioAnual){
+    if(salarioAnual<=0){
+        return true;
+    }
+}
+
+const $botonCalcular = document.querySelector('#boton-calcular');
+
+$botonCalcular.onclick = function(){ 
+    const $salarioAnual = Number(document.querySelector('#salario-anual').value);
+    
+    if(validarSalario($salarioAnual)){
+        alert('Por favor ingrese un salario válido');
+        return true;// si el salario es negativo se recarga la página
+    }
+    
+    document.querySelector('#salario-mensual').value = "Tu salario es de $" + calcularSalarioMensual($salarioAnual) + " por mes";
+    
+    return false;//para que el formulario no se envíe . sy tengo en html <button type="button">Soy el boton</button> es decir especifica que es de tipo button y no submit no hace falta acá poner el return false, de todas formas yo acá estoy utilizando un input de tipo submit asi que si hace falta para que la página no se recargue.
+    
+
+
+}
