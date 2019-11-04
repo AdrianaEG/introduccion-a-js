@@ -121,6 +121,8 @@
     // pero no la variable en sí misma. Vas a ver esto en acción ahora mismo.
 */
 
+
+
 // TAREA: Ahora te toca a vos! — Obtené la etiqueta h1 de la página y guardala en una variable
 //       variable llamada nuestroTitulo.
 //       Utilizá console.log para ver lo que obtuviste!
@@ -177,10 +179,25 @@ console.log(mediaLinks);*/
 // TAREA: ¿Te acordás de los bucles del nivel 2? Usando lo que sabés de ellos, realizá iteraciones
 //      sobre cada item de mediaLinks y mostralos en pantalla con console.log
 
+/*const mediaLinks = document.querySelectorAll('li');
+console.log(mediaLinks);
+console.log(mediaLinks.length);
 
+for(let i=0; i<mediaLinks.length; i++){
+    console.log(mediaLinks[i]);
+}*/
 
 //agarrar todos los footer que estan dentro de un body
 //document.querySelectorAll("body footer"); el espacio es... adentro de...
+
+/*const titulo = document.querySelector('h1');
+console.log(titulo);
+console.log(titulo.textContent);
+console.log(titulo.innerText);
+*/
+//en este caso usar textContent o innerText es lo mismo, ambos me muestran el contenido que hay dentro de ese h1
+//la diferencia entre textContent, innertText e innerHtml es... textContent les va a dar siempre el contenido de texto que haya dentro de ese elemento, innerText no nos da ningun tipo de texto que no se esté mostrando en la página ej si el titulo está en display:none, con innerText no me va a dar el texto. Es decir, innerText sólo me trae el contenido visible. (Conviene usar el textContent)
+
 
 
 /*
@@ -207,6 +224,10 @@ console.log(contenidoTitulo.textContent);
 contenidoTitulo.textContent = 'BIENVENIDOS A ESTE MARAVILLOSO CURSO';
 console.log(contenidoTitulo.textContent);*/
 
+/*let titulo = document.querySelector('h1');
+console.log(titulo.textContent);
+titulo.textContent = "CHAU";*/
+
 /*
     Editar el contenido de la página
     ====================
@@ -224,7 +245,9 @@ console.log(contenidoTitulo.textContent);*/
 // TAREA: Hagamos un nuevo título! Cambiá el contenido de nuestro 'h1' y ponele lo que quieras.
 
 
-
+/*const nombre = prompt('Cómo te llamas?');
+let titulo = document.querySelector('h1');
+titulo.textContent = `${titulo.textContent} ${nombre}`;*/
 
 
 /*
@@ -241,9 +264,7 @@ console.log(contenidoTitulo.textContent);*/
 
 // TAREA: Actualizá el valor del atributo 'src' de nuestra etiqueta 'img' a "img/kittens.jpeg".
 
-
-
-
+//document.querySelector('img').src = 'img/kittens.jpeg';
 
 
 /*
@@ -266,13 +287,13 @@ console.log(contenidoTitulo.textContent);*/
 
 // Tarea: Obtené cualquier elemento de la página y cambiale algunos estilos.
 
-
-
-
+/*const titulo = document.querySelector('h1');
+titulo.style.backgroundColor = 'red';
+titulo.style.fontSize = '100px';*/
 
 
 /*
-   Creando nuevos nodos (Elementos)
+   Creando nuevos nodos (Elementos) - Crear nuevos elementos dinámicamente.
     =============================
 
     El objeto "document" también nos da maneras de crear nodos desde cero.
@@ -285,7 +306,7 @@ console.log(contenidoTitulo.textContent);*/
 
     const nodoPagina = document.querySelector('body');
     const nuevoParrafo = document.createElement('p');
-    const textoParrafo = document.createTextNode('Yeeee!');
+    const textoParrafo = document.createTextNode('Siiii!');
     nuevoParrafo.appendChild(textoParrafo);
     nodoPagina.appendChild(nuevoParrafo);
 */
@@ -296,8 +317,15 @@ console.log(contenidoTitulo.textContent);*/
 //
 // P.S. También les podés dar estilos al nuevo nodo que creaste.
 
+/*const nodoImagen = document.createElement('img');//guardo en una variable que quiero crear el elemento <img/>
+nodoImagen.src='img/woman_bw.jpg';//le cambio el atributo src a nodoImagen
+document.querySelector('header').appendChild(nodoImagen);//agrego en el header el nodoImagen.
+*/
 
-
+/*const nuevoParrafo = document.createElement('p');
+const textoParrafo = document.createTextNode('Hola soy el nuevo párrafo');
+nuevoParrafo.appendChild(textoParrafo);
+document.querySelector('body').appendChild(nuevoParrafo);*/
 
 
 
@@ -328,7 +356,4 @@ console.log(contenidoTitulo.textContent);*/
     document.querySelector('#resultado').innerText = textoResultado; // el div que estaba vacío le pone lo que contenga la var textoResultado
     return false;
 }*/
-
-
-
 
