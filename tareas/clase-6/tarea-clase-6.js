@@ -32,6 +32,33 @@ function crearInputs(cantidad){
     }
 }
 
+function calcularMayorEdad(edades){
+    let mayor = Number(edades[0].value);
+    for(let i=0; i<edades.length; i++){
+        if(Number(edades[i].value)>mayor){
+            mayor = Number(edades[i].value);
+        }
+    }
+    return mayor;
+}
+
+function calcularMenorEdad(edades){
+    let menor = Number(edades[0].value);
+    for(let i=0; i<edades.length; i++){
+        if(Number(edades[i].value)<menor){
+            menor = Number(edades[i].value);
+        }
+    }
+    return menor;
+}
+
+function calcularPromedio(edades){
+    let suma = 0;
+    for(let i=0; i<edades.length; i++){
+        suma += Number(edades[i].value);
+    }
+    return (suma/(edades.length));
+}
 
 const $botonComenzar = document.querySelector('#comenzar');
 
@@ -41,27 +68,30 @@ $botonComenzar.onclick = function(){
     const cantidadDeIntegrantes = document.querySelector('#cantidad-integrantes').value;
     crearInputs(cantidadDeIntegrantes);
     document.querySelector('#calcular').style.display = 'inline';//pone visible el botón calcular, yo desde css lo habia puesto con display: none, para que recién se viera cuando hiciera click en comenzar. 
-    
     return false;
 }
 
 const $botonCalcular = document.querySelector('#calcular');
 $botonCalcular.onclick = function(){
     let edades = document.querySelectorAll('.edades');
-    console.log(mayorEdad(edades));
     
+    const parrafoMayorEdad = document.createElement('p');
+    const textoMayorEdad = document.createTextNode(`La mayor edad es ${calcularMayorEdad(edades)}`);
+    parrafoMayorEdad.appendChild(textoMayorEdad);
+    document.querySelector('#muestra-informacion').appendChild(parrafoMayorEdad); 
     
+    const parrafoMenorEdad = document.createElement('p');
+    const textoMenorEdad = document.createTextNode(`La menor edad es ${calcularMenorEdad(edades)}`);
+    parrafoMenorEdad.appendChild(textoMenorEdad);
+    document.querySelector('#muestra-informacion').appendChild(parrafoMenorEdad);
+    
+    const parrafoPromedio = document.createElement('p');
+    const textoPromedio = document.createTextNode(`El promedio de edad es ${calcularPromedio(edades)}`);
+    parrafoPromedio.appendChild(textoPromedio);
+    document.querySelector('#muestra-informacion').appendChild(parrafoPromedio);
+
     return false;
 }
 
-function mayorEdad(edades){
-    let mayor = Number(edades[0].value);
-    for(let i=0; i<edades.length; i++){
-        if(Number(edades[i].value)>mayor){
-            mayor = Number(edades[i].value);
-        }
-    }
-    return mayor;
-}
 
 
