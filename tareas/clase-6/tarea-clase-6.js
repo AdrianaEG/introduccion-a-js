@@ -15,46 +15,53 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente el mayor sala
 Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como 0).
 */
 
+function crearInputs(cantidad){
+    for(let i=1; i<=cantidad; i++){
+        const nuevoLabel = document.createElement('label');
+        const textoLabel = document.createTextNode(`Ingrese la edad del integrante ${i}: `);
+        nuevoLabel.appendChild(textoLabel);
+        document.querySelector('.edad-integrantes').appendChild(nuevoLabel);
+        
+        const nuevoInput = document.createElement('input');
+        nuevoInput.type = "number";
+        nuevoInput.className = "edades";
+        document.querySelector('.edad-integrantes').appendChild(nuevoInput);
+        
+        const saltoDeLinea = document.createElement('br');
+        document.querySelector('.edad-integrantes').appendChild(saltoDeLinea);        
+    }
+}
+
+
 const $botonComenzar = document.querySelector('#comenzar');
 
+$botonComenzar.onclick = function(){
+    $botonComenzar.style.display = 'none';//Oculta botón comenzar
+    document.querySelector('#cantidad-integrantes').disabled = true; //no permite volver a escribir en cant de integrantes
+    const cantidadDeIntegrantes = document.querySelector('#cantidad-integrantes').value;
+    crearInputs(cantidadDeIntegrantes);
+    document.querySelector('#calcular').style.display = 'inline';//pone visible el botón calcular, yo desde css lo habia puesto con display: none, para que recién se viera cuando hiciera click en comenzar. 
+    
+    return false;
+}
+
+const $botonCalcular = document.querySelector('#calcular');
+$botonCalcular.onclick = function(){
+    let edades = document.querySelectorAll('.edades');
+    console.log(mayorEdad(edades));
+    
+    
+    return false;
+}
 
 function mayorEdad(edades){
-    let mayor = edades[0];
-    console.log(edades[0]);
+    let mayor = Number(edades[0].value);
     for(let i=0; i<edades.length; i++){
-        if(edades[i]>mayor){
-            mayor = edades[i];
+        if(Number(edades[i].value)>mayor){
+            mayor = Number(edades[i].value);
         }
     }
     return mayor;
 }
 
-$botonComenzar.onclick = function(){
-    
-    const $cantidadDeIntegrantes = Number(document.querySelector('#cantidad-integrantes').value);
-    
-    for(let i=1; i<=$cantidadDeIntegrantes; i++){
-        const nuevoLabel = document.createElement('label');
-        const textoDelLabel = document.createTextNode('Ingrese edad del integrante ' + i);
-        nuevoLabel.appendChild(textoDelLabel);
-        document.querySelector('body').appendChild(nuevoLabel);
-        
-        const inputEdad = document.createElement('input');
-        inputEdad.type = "text";
-        inputEdad.className = "edad";
-        document.querySelector('body').appendChild(inputEdad);
-        
-    }
-    
-    const botonCalcular = document.querySelector('#calcular');
-    
-    botonCalcular.onclick = function(){
-        
-        const edades = Number(document.querySelectorAll('.edad'));
-        console.log(mayorEdad(edades));
-        
-        return false;
-    }
-    
-    return false;
-}
+
