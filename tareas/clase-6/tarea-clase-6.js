@@ -118,7 +118,7 @@ $botonCalcular.onclick = function(){
 
 
 function eliminarInput(){
-    /* ACÁ QUERÍA HACER QUE SE LE ELIMINARAN LOS INPUTS Y LABELS QUE SE CREARON (DONDE SE COLOCABAN LAS EDADES), PERO NO FUNCIONA: Uncaught TypeError: Failed to execute 'removeChild' on 'Node': parameter 1 is not of type 'Node'. SEGÚN MDN ES PORQUE EL CHILD NO EXISTE EN EL DOM. 
+    /* ACÁ QUERÍA HACER QUE SE LE ELIMINARAN LOS INPUTS Y LABELS QUE SE CREARON (DONDE SE COLOCABAN LAS EDADES), PERO NO FUNCIONA me dice: Uncaught TypeError: Failed to execute 'removeChild' on 'Node': parameter 1 is not of type 'Node'. SEGÚN MDN ES PORQUE EL CHILD NO EXISTE EN EL DOM. 
     
     let divConEdades = document.querySelector('.edad-integrantes')//clase donde hay un div donde están guardados los input con las edades, este sería el nodo padre.
     let lasEdades = document.querySelectorAll('.edades');// me devuelve una nodeList con todas las edades guardadas en los input 
