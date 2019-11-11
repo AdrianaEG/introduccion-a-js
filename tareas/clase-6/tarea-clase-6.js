@@ -12,6 +12,7 @@ function crearInputs(cantidad){
     for(let i=1; i<=cantidad; i++){
         const nuevoLabel = document.createElement('label');
         const textoLabel = document.createTextNode(`Ingrese la edad del integrante ${i}: `);
+        nuevoLabel.className = "labelEdad";
         nuevoLabel.appendChild(textoLabel);
         document.querySelector('.edad-integrantes').appendChild(nuevoLabel);
         
@@ -59,7 +60,8 @@ function calcularPromedio(edades){
 const $botonComenzar = document.querySelector('#comenzar');
 //CUANDO SE HACE CLICK EN EL BOTÓN COMENZAR
 $botonComenzar.onclick = function(){
-    $botonComenzar.style.display = 'none';//Oculta botón comenzar
+    $botonComenzar.className = 'ocultar';
+    //$botonComenzar.style.display = 'none';//Oculta botón comenzar
     document.querySelector('#cantidad-integrantes').disabled = true; //no permite volver a escribir en cant de integrantes
     const cantidadDeIntegrantes = document.querySelector('#cantidad-integrantes').value;
     crearInputs(cantidadDeIntegrantes);//llama a la función para crear los input con la cant de integrantes
@@ -68,6 +70,11 @@ $botonComenzar.onclick = function(){
 }
 
 const $botonCalcular = document.querySelector('#calcular');
+
+const $parrafoMayor = document.querySelector('#mayor');
+const $parrafoMenor = document.querySelector('#menor');
+const $parrafoPromedio = document.querySelector('#promedio');
+
 //CUANDO SE HACE CLIK EN EL BOTON CALCULAR
 $botonCalcular.onclick = function(){
     
@@ -76,16 +83,15 @@ $botonCalcular.onclick = function(){
     const $divDeInformacion = document.querySelector('#muestra-informacion');
     $divDeInformacion.style.display = 'inline';//pone visible el div que contiene los parrafos para mostrar la mayor, menor y promedio de edad.
     
-    const $parrafoMayor = document.querySelector('#mayor');
+    
     $parrafoMayor.textContent += calcularMayorEdad(edades);
     
-    const $parrafoMenor = document.querySelector('#menor');
     $parrafoMenor.textContent += calcularMenorEdad(edades);
     
-    const $parrafoPromedio = document.querySelector('#promedio');
     $parrafoPromedio.textContent += calcularPromedio(edades);
     
-    $botonCalcular.disabled = "true"; //deshabilita el botón calcular
+    $botonCalcular.className = 'ocultar';
+    
     
     /* Esto creaba un nuevo párrafo para la mayor de edad, la menor y el promedio... 
     
@@ -109,30 +115,24 @@ $botonCalcular.onclick = function(){
     //pone visibles los botones reiniciar, agregar salario y quitar salario.
     $botonReiniciar.style.display = 'inline';
     
-    $botonAgregarSalario.style.display = 'inline';
+    //$botonAgregarSalario.style.display = 'inline';
     
-    $botonQuitarSalario.style.display = 'inline';
+    //$botonQuitarSalario.style.display = 'inline';
     
     return false;
 }
 
 
 function eliminarInput(){
-    /* ACÁ QUERÍA HACER QUE SE LE ELIMINARAN LOS INPUTS Y LABELS QUE SE CREARON (DONDE SE COLOCABAN LAS EDADES), PERO NO FUNCIONA me dice: Uncaught TypeError: Failed to execute 'removeChild' on 'Node': parameter 1 is not of type 'Node'. SEGÚN MDN ES PORQUE EL CHILD NO EXISTE EN EL DOM. 
     
     let divConEdades = document.querySelector('.edad-integrantes')//clase donde hay un div donde están guardados los input con las edades, este sería el nodo padre.
     let lasEdades = document.querySelectorAll('.edades');// me devuelve una nodeList con todas las edades guardadas en los input 
-    divConEdades.removeChild(lasEdades[0]);//pruebo con el primer elemento de la nodeList
-    
-    */
-    
-    let padre = document.querySelector('#muestra-informacion'); //guarda el div donde están los párrafos que muestran el mayor, el menor y el promedio de edades 
-    let hijo = document.querySelector('#mayor');
-    padre.removeChild(hijo);
-    hijo = document.querySelector('#menor');
-    padre.removeChild(hijo);
-    hijo = document.querySelector('#promedio');
-    padre.removeChild(hijo);
+    let losLabels = document.querySelectorAll('.labelEdad');//nodeList con todos los labels que dicen "ingrese la edad del integrante numero x.
+        
+    for (let i=0; i<lasEdades.length; i++){
+        divConEdades.removeChild(lasEdades[i]);//me elimina todos los input donde se ingresa la edad
+        divConEdades.removeChild(losLabels[i]);//me elimina todos los labels que dicen "ingrese la edad del integrante x
+    }
 
 }
 
@@ -140,10 +140,17 @@ const $botonReiniciar = document.querySelector('#reiniciar');
 //AL HACER CLICK EN EL BOTÓN REINICIAR
 $botonReiniciar.onclick = function(){
     eliminarInput();//llama a la función eliminar input
+    $botonReiniciar.className = 'ocultar';
     $botonReiniciar.style.display = 'none'; //oculta el botón reiniciar
-    $botonCalcular.disabled = false; //habilita el botón calcular
+    $botonCalcular.style.display = 'none'; //oculta el botón calcular
     $botonComenzar.style.display = 'inline';
-    document.querySelector('#cantidad-integrantes').disabled = false;//habilita el input para ingresar cantidad de integra
+    document.querySelector('#cantidad-integrantes').disabled = false;//habilita el input para ingresar cantidad de integrantes
+    
+    $parrafoMayor.textContent = "La mayor edad es: "; //reinicia el parrafo que dice mayor edad
+    $parrafoMenor.textContent = "La menor edad es: "; //reinicia el parrafo que dice la menor edad
+    $parrafoPromedio.textContent = "El promedio de edades es: "; //reinicia el párrafo que dice promedio de edades.
+    
+    document.querySelector('#muestra-informacion').style.display = 'none'; //oculta los párrafos 
     
     return false;
 }
@@ -160,7 +167,7 @@ Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como
 */
 
 //FUNCIÓN CALCULA EL MAYOR SALARIO ANUAL
-function calcularMayorSalarioAnual(todosLosSalarios){
+/*function calcularMayorSalarioAnual(todosLosSalarios){
     let mayor = Number(todosLosSalarios[0].value);
     for(let i=0; i<todosLosSalarios.length; i++){
         if(Number(todosLosSalarios[i].value) > mayor){
@@ -237,4 +244,4 @@ $botonCalcularSalarios.onclick = function(){
     document.querySelector('#salario-anual-promedio').textContent += calcularSalarioAnualPromedio(todosLosSalarios);
     document.querySelector('#salario-mensual-promedio').textContent += calcularSalarioMensualPromedio(todosLosSalarios);
     
-}
+}*/
