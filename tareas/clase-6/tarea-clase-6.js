@@ -173,28 +173,30 @@ Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como
 */
 
 function calcularMayorSalarioAnual(todosLosSalarios){
-    let mayor = Number(todosLosSalarios[0].value);
+    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
+    let mayor = Number(todosLosSalarios[0]);
     
     for(let i=0; i<todosLosSalarios.length; i++){
-        if(Number(todosLosSalarios[i].value) > mayor){
-            mayor = Number(todosLosSalarios[i].value);
+        if(Number(todosLosSalarios[i]) > mayor){
+            mayor = Number(todosLosSalarios[i]);
         }
     }
     return mayor;
 }
 
 function calcularMenorSalarioAnual(todosLosSalarios){
-    let menor = Number(todosLosSalarios[0].value);
+    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
+    let menor = Number(todosLosSalarios[0]);
     for(let i=0; i<todosLosSalarios.length; i++){
-        if(Number(todosLosSalarios[i].value) < menor){
-            menor = Number(todosLosSalarios[i].value);
+        if(Number(todosLosSalarios[i]) < menor){
+            menor = Number(todosLosSalarios[i]);
         }
     }
     return menor;
 }
 
 function calcularSalarioAnualPromedio(todosLosSalarios){
-    todosLosSalarios = comprobarCampoVacio(todosLosSalarios);
+    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
     let cantidad = todosLosSalarios.length;
     let suma = 0;
     for(let i=0; i<cantidad; i++){
@@ -205,10 +207,11 @@ function calcularSalarioAnualPromedio(todosLosSalarios){
 }
 
 function calcularSalarioMensualPromedio(todosLosSalarios){
+    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
     let suma = 0;
     let cantidad = todosLosSalarios.length
     for(let i=0; i<cantidad; i++){
-        suma += ((Number(todosLosSalarios[i].value))/12);
+        suma += ((Number(todosLosSalarios[i]))/12);
     }
     return (suma/cantidad).toFixed(2);
 }
@@ -294,9 +297,9 @@ function resetearSalario (){
     i=0;////la var i es la que me impide que se generen más campos que la cantidad de familiares que hay
 }
 
-function comprobarCampoVacio(nodeListConSalarios){
+function comprobarCampoEsCero(nodeListConSalarios){//
     
-    /*LA IDEA ERA QUE SI ESTABA VACÍO O SI ERA CERO QUE LO ELIMINARA DE LA NODE LIST PERO NO FUNCIONA
+    /*LA IDEA ERA QUE SI ESTABA VACÍO O SI ERA CERO QUE LO ELIMINARA DE LA NODE LIST PERO NO FUNCIONA ASÍ QUE LO PASÉ A UN ARRAY Y LISTO. 
     
     for(let i=0; i<nodeListConSalarios.length; i++){
         if((nodeListConSalarios[i] == "") || (nodeListConSalarios === 0)){
@@ -312,7 +315,7 @@ function comprobarCampoVacio(nodeListConSalarios){
     }
     
     for(let i=0; i<arregloDeSalarios.length; i++){
-        if((arregloDeSalarios[i] == "") || (arregloDeSalarios[i] == 0)){
+        if(arregloDeSalarios[i] == 0){
             arregloDeSalarios.splice(i, 1);
         }
     }
