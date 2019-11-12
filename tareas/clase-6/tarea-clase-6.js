@@ -173,7 +173,7 @@ Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como
 */
 
 function calcularMayorSalarioAnual(todosLosSalarios){
-    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
+    todosLosSalarios = comprobarCampoVacio(todosLosSalarios);
     let mayor = Number(todosLosSalarios[0]);
     
     for(let i=0; i<todosLosSalarios.length; i++){
@@ -185,7 +185,7 @@ function calcularMayorSalarioAnual(todosLosSalarios){
 }
 
 function calcularMenorSalarioAnual(todosLosSalarios){
-    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
+    todosLosSalarios = comprobarCampoVacio(todosLosSalarios);
     let menor = Number(todosLosSalarios[0]);
     for(let i=0; i<todosLosSalarios.length; i++){
         if(Number(todosLosSalarios[i]) < menor){
@@ -196,7 +196,7 @@ function calcularMenorSalarioAnual(todosLosSalarios){
 }
 
 function calcularSalarioAnualPromedio(todosLosSalarios){
-    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
+    todosLosSalarios = comprobarCampoVacio(todosLosSalarios);
     let cantidad = todosLosSalarios.length;
     let suma = 0;
     for(let i=0; i<cantidad; i++){
@@ -207,7 +207,7 @@ function calcularSalarioAnualPromedio(todosLosSalarios){
 }
 
 function calcularSalarioMensualPromedio(todosLosSalarios){
-    todosLosSalarios = comprobarCampoEsCero(todosLosSalarios);
+    todosLosSalarios = comprobarCampoVacio(todosLosSalarios);
     let suma = 0;
     let cantidad = todosLosSalarios.length
     for(let i=0; i<cantidad; i++){
@@ -297,12 +297,12 @@ function resetearSalario (){
     i=0;////la var i es la que me impide que se generen más campos que la cantidad de familiares que hay
 }
 
-function comprobarCampoEsCero(nodeListConSalarios){//
+function comprobarCampoVacio(nodeListConSalarios){//
     
     /*LA IDEA ERA QUE SI ESTABA VACÍO O SI ERA CERO QUE LO ELIMINARA DE LA NODE LIST PERO NO FUNCIONA ASÍ QUE LO PASÉ A UN ARRAY Y LISTO. 
     
     for(let i=0; i<nodeListConSalarios.length; i++){
-        if((nodeListConSalarios[i] == "") || (nodeListConSalarios === 0)){
+        if(nodeListConSalarios[i] == ''){
             nodeListConSalarios[i].remove();
         }
     }
@@ -315,9 +315,13 @@ function comprobarCampoEsCero(nodeListConSalarios){//
     }
     
     for(let i=0; i<arregloDeSalarios.length; i++){
-        if(arregloDeSalarios[i] == 0){
+        if(arregloDeSalarios[i] == ''){
             arregloDeSalarios.splice(i, 1);
         }
     }
     return arregloDeSalarios;
 }
+
+
+
+
