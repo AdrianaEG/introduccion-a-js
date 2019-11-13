@@ -249,7 +249,7 @@ $botonAgregarSalario.onclick = function(){
         $botonCalcularSalarios.className = 'mostrar';
         i++;
     }
-    
+   return false; 
 }
 
 $botonCalcularSalarios.onclick = function(){
@@ -261,7 +261,8 @@ $botonCalcularSalarios.onclick = function(){
     document.querySelector('#salario-anual-promedio').textContent += calcularSalarioAnualPromedio(todosLosSalarios);
     document.querySelector('#salario-mensual-promedio').textContent += calcularSalarioMensualPromedio(todosLosSalarios);
     
-    $botonCalcularSalarios.className = 'ocultar';//style.display = 'none';//className = 'ocultar' no me funciona- 
+    $botonCalcularSalarios.className = 'ocultar';
+    return false;
 }
 
 $botonQuitarSalario.onclick = function(){
@@ -278,6 +279,7 @@ $botonQuitarSalario.onclick = function(){
     if(cantidadDeSalarios == 1){
         $botonQuitarSalario.className = 'ocultar';
     }
+    return false;
 }
 
 function resetearSalario (){
@@ -321,7 +323,3 @@ function comprobarCampoVacio(nodeListConSalarios){//
     }
     return arregloDeSalarios;
 }
-
-
-
-
