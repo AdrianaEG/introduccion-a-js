@@ -74,7 +74,7 @@ $botonComenzar.onclick = function (event) {
 }
 
 function validarCantidadDeIntegrantes(cantidadDeIntegrantes) {
-    return (/^[0-9]+$/.test(cantidadDeIntegrantes));
+    return ((cantidadDeIntegrantes>0) && (cantidadDeIntegrantes<=100));
 }
 
 const $botonCalcular = document.querySelector('#calcular');
@@ -113,7 +113,7 @@ $botonCalcular.onclick = function (event) {
     }
     else{
         alert('Por favor ingrese edades validas');
-        $botonReiniciar.onclick();
+        reiniciar();
     }
 
 
@@ -147,14 +147,16 @@ $botonCalcular.onclick = function (event) {
 function validarEdades(edades) {
     let error = 0;
     edades.forEach(function (key) {
-        if (!(/^[0-9]+$/.test(key.value))) {
+        if ((key.value <= 0) || (key.value > 120)) {
             error++;
         }
     });
-    if (error > 0) {
+    if (error === 0) {
+        return true;
+    }
+    else{
         return false;
     }
-    return true;
 }
 
 
@@ -183,6 +185,12 @@ function eliminarInputs() {
 const $botonReiniciar = document.querySelector('#reiniciar');
 //AL HACER CLICK EN EL BOTÓN REINICIAR
 $botonReiniciar.onclick = function (event) {
+    reiniciar();
+
+    event.preventDefault();
+}
+
+function reiniciar(){
     eliminarInputs(); //llama a la función eliminar input
     $botonReiniciar.className = 'ocultar';
     //style.display = 'none'; //oculta el botón reiniciar
@@ -196,8 +204,6 @@ $botonReiniciar.onclick = function (event) {
     //document.querySelector('#carga-informacion-salario').className = 'ocultar';
     //document.querySelector('#muestra-informacion-salario').className = 'ocultar';
     resetearSalario();
-
-    event.preventDefault();
 }
 
 function reiniciarParrafos() {
@@ -286,6 +292,7 @@ let i = 0; //la var i es la que me impide que se generen más campos que la cant
 $botonAgregarSalario.onclick = function () {
 
     document.querySelector('#carga-informacion-salario').className = 'mostrar';
+    $botonReiniciar.className = 'ocultar';
 
     if (i < (document.querySelector('#cantidad-integrantes').value)) { //la var i es la que me impide que se generen más campos que la cantidad de familiares que hay
 
@@ -294,20 +301,53 @@ $botonAgregarSalario.onclick = function () {
         $botonCalcularSalarios.className = 'mostrar';
         i++;
     }
+    if(i === Number(document.querySelector('#cantidad-integrantes').value)){
+        $botonAgregarSalario.className = 'ocultar';
+    }
     return false;
 }
 
-$botonCalcularSalarios.onclick = function () {
+$botonCalcularSalarios.onclick = function (event) {
     const todosLosSalarios = document.querySelectorAll('.salario'); //se crea un nodeList con todosLosSalarios ingresados
-    document.querySelector('#muestra-informacion-salario').className = 'mostrar'; //style.display = 'inline';//se hace visible el div que contiene los párrafos que muestran el mayor, menor y los promedios de salario mensual y anual. 
-
+    
+    if(validarSalarios(todosLosSalarios)){
+        document.querySelector('#muestra-informacion-salario').className = 'mostrar'; //style.display = 'inline';//se hace visible el div que contiene los párrafos que muestran el mayor, menor y los promedios de salario mensual y anual. 
+    
     document.querySelector('#mayor-salario').textContent += calcularMayorSalarioAnual(todosLosSalarios);
     document.querySelector('#menor-salario').textContent += calcularMenorSalarioAnual(todosLosSalarios);
     document.querySelector('#salario-anual-promedio').textContent += calcularSalarioAnualPromedio(todosLosSalarios);
     document.querySelector('#salario-mensual-promedio').textContent += calcularSalarioMensualPromedio(todosLosSalarios);
 
     $botonCalcularSalarios.className = 'ocultar';
-    return false;
+    }
+    else{
+        alert('Por favor ingrese solo numeros');
+        reiniciar();
+    }
+    
+    if(todosLosSalarios[0] === undefined){
+        alert('No se puede calcular');
+        reiniciar();
+    }
+    
+    event.preventDefault();
+    
+}
+
+function validarSalarios(todosLosSalarios){
+    
+    let error = 0;
+    todosLosSalarios.forEach(function (key) {
+        if (key.value <= 0) {
+            error++;
+        }
+    });
+    if (error === 0) {
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 $botonQuitarSalario.onclick = function () {
