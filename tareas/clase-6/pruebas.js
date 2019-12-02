@@ -4,4 +4,6 @@ function probarValidarCantidadDeIntegrantes() {
     console.assert(validarCantidadDeIntegrantes(5)=== true, 'validarCantidadDeIntegrantes no validó cuando ingresa una cant valida');
 }
 
+
 probarValidarCantidadDeIntegrantes();
+
