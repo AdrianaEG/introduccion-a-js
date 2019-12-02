@@ -6,29 +6,6 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente la mayor edad
 Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuevamente, borrando los inputs ya creados (investigar cómo en MDN).
 */
 
-
-//FUNCIÓN PARA CREAR LABEL E INPUT DONDE SE CARGA LA EDAD DE LOS INTEGRANTES:
-function crearInputs(cantidad) {
-    let $edadIntegrantes = document.querySelector('.edad-integrantes');
-
-    for (let i = 1; i <= cantidad; i++) {
-        const nuevoLabel = document.createElement('label');
-        const textoLabel = document.createTextNode(`Ingrese la edad del integrante ${i}: `);
-        nuevoLabel.className = "labelEdad";
-        nuevoLabel.appendChild(textoLabel);
-
-        $edadIntegrantes.appendChild(nuevoLabel);
-
-        const nuevoInput = document.createElement('input');
-        nuevoInput.type = "number";
-        nuevoInput.className = "edades";
-        $edadIntegrantes.appendChild(nuevoInput);
-
-        const saltoDeLinea = document.createElement('br');
-        $edadIntegrantes.appendChild(saltoDeLinea);
-    }
-}
-
 function calcularMayorEdad(edades) {
     let mayor = Number(edades[0].value);
     for (let i = 0; i < edades.length; i++) {
@@ -58,12 +35,14 @@ function calcularPromedio(edades) {
 }
 
 const $botonComenzar = document.querySelector('#comenzar');
+const $botonCalcular = document.querySelector('#calcular');
+const $botonReiniciar = document.querySelector('#reiniciar');
 
 $botonComenzar.onclick = function (event) {
     const cantidadDeIntegrantes = document.querySelector('#cantidad-integrantes').value;
     if (validarCantidadDeIntegrantes(cantidadDeIntegrantes)) {
         crearInputs(cantidadDeIntegrantes); //llama a la función para crear los input con la cant de integrantes
-        document.querySelector('#calcular').className = 'mostrar'; //style.display = 'inline'; pone visible el botón calcular, yo desde css lo habia puesto con display: none, para que recién se viera cuando hiciera click en comenzar. 
+        $botonCalcular.className = 'mostrar'; //style.display = 'inline'; pone visible el botón calcular, yo desde css lo habia puesto con display: none, para que recién se viera cuando hiciera click en comenzar. 
         document.querySelector('#cantidad-integrantes').disabled = true; //no permite volver a escribir en cant de integrantes
         $botonComenzar.className = 'ocultar'; //$botonComenzar.style.display = 'none'; Oculta botón comenzar
     } else {
@@ -74,10 +53,29 @@ $botonComenzar.onclick = function (event) {
 }
 
 function validarCantidadDeIntegrantes(cantidadDeIntegrantes) {
-    return ((cantidadDeIntegrantes>0) && (cantidadDeIntegrantes<=100));
+    return ((cantidadDeIntegrantes > 0) && (cantidadDeIntegrantes <= 100));
 }
 
-const $botonCalcular = document.querySelector('#calcular');
+function crearInputs(cantidad) {
+    let $edadIntegrantes = document.querySelector('.edad-integrantes');
+
+    for (let i = 1; i <= cantidad; i++) {
+        const nuevoLabel = document.createElement('label');
+        const textoLabel = document.createTextNode(`Ingrese la edad del integrante ${i}: `);
+        nuevoLabel.className = "labelEdad";
+        nuevoLabel.appendChild(textoLabel);
+
+        $edadIntegrantes.appendChild(nuevoLabel);
+
+        const nuevoInput = document.createElement('input');
+        nuevoInput.type = "number";
+        nuevoInput.className = "edades";
+        $edadIntegrantes.appendChild(nuevoInput);
+
+        const saltoDeLinea = document.createElement('br');
+        $edadIntegrantes.appendChild(saltoDeLinea);
+    }
+}
 
 const $parrafoMayor = document.querySelector('#mayor');
 const $parrafoMenor = document.querySelector('#menor');
@@ -105,13 +103,12 @@ $botonCalcular.onclick = function (event) {
         $botonAgregarSalario.className = 'mostrar'; //style.display = 'inline';
 
         $botonQuitarSalario.className = 'mostrar'; //$botonQuitarSalario.style.display = 'inline';
-        
-        edades.forEach(function(key){//inhabilita los input 
+
+        edades.forEach(function (key) { //inhabilita los input 
             key.disabled = true;
         });
-        
-    }
-    else{
+
+    } else {
         alert('Por favor ingrese edades validas');
         reiniciar();
     }
@@ -153,12 +150,32 @@ function validarEdades(edades) {
     });
     if (error === 0) {
         return true;
-    }
-    else{
+    } else {
         return false;
     }
 }
 
+//AL HACER CLICK EN EL BOTÓN REINICIAR
+$botonReiniciar.onclick = function (event) {
+    reiniciar();
+    event.preventDefault();
+}
+
+function reiniciar() {
+    eliminarInputs(); //llama a la función eliminar input
+    $botonReiniciar.className = 'ocultar';
+    //style.display = 'none'; //oculta el botón reiniciar
+    $botonCalcular.className = 'ocultar'; //style.display = 'none'; //oculta el botón calcular
+    $botonComenzar.className = 'mostrar'; //style.display = 'inline';
+    document.querySelector('#cantidad-integrantes').disabled = false; //habilita el input para ingresar cantidad de integrantes
+    reiniciarParrafos();
+    document.querySelector('#muestra-informacion').className = 'ocultar'; //style.display = 'none'; //oculta los párrafos 
+    $botonAgregarSalario.className = 'ocultar';
+    $botonQuitarSalario.className = 'ocultar';
+    //document.querySelector('#carga-informacion-salario').className = 'ocultar';
+    //document.querySelector('#muestra-informacion-salario').className = 'ocultar';
+    resetearSalario();
+}
 
 function eliminarInputs() {
 
@@ -180,30 +197,6 @@ function eliminarInputs() {
     losLabels.forEach(function(key){
         key.remove();
     });*/
-}
-
-const $botonReiniciar = document.querySelector('#reiniciar');
-//AL HACER CLICK EN EL BOTÓN REINICIAR
-$botonReiniciar.onclick = function (event) {
-    reiniciar();
-
-    event.preventDefault();
-}
-
-function reiniciar(){
-    eliminarInputs(); //llama a la función eliminar input
-    $botonReiniciar.className = 'ocultar';
-    //style.display = 'none'; //oculta el botón reiniciar
-    $botonCalcular.className = 'ocultar'; //style.display = 'none'; //oculta el botón calcular
-    $botonComenzar.className = 'mostrar'; //style.display = 'inline';
-    document.querySelector('#cantidad-integrantes').disabled = false; //habilita el input para ingresar cantidad de integrantes
-    reiniciarParrafos();
-    document.querySelector('#muestra-informacion').className = 'ocultar'; //style.display = 'none'; //oculta los párrafos 
-    $botonAgregarSalario.className = 'ocultar';
-    $botonQuitarSalario.className = 'ocultar';
-    //document.querySelector('#carga-informacion-salario').className = 'ocultar';
-    //document.querySelector('#muestra-informacion-salario').className = 'ocultar';
-    resetearSalario();
 }
 
 function reiniciarParrafos() {
@@ -268,6 +261,30 @@ function calcularSalarioMensualPromedio(todosLosSalarios) {
 }
 
 //FUNCIÓN QUE CREA INPUTS PARA AGREGAR LOS SALARIOS
+
+const $botonAgregarSalario = document.querySelector('#agregar-salario');
+const $botonQuitarSalario = document.querySelector('#quitar-salario');
+const $botonCalcularSalarios = document.querySelector('#calcular-salarios');
+
+let i = 0; //la var i es la que me impide que se generen más campos que la cantidad de familiares que hay
+$botonAgregarSalario.onclick = function (event) {
+
+    document.querySelector('#carga-informacion-salario').className = 'mostrar';
+    $botonReiniciar.className = 'ocultar';
+
+    if (i < (document.querySelector('#cantidad-integrantes').value)) { //la var i es la que me impide que se generen más campos que la cantidad de familiares que hay
+
+        agregarInputSalario();
+        $botonQuitarSalario.className = 'mostrar';
+        $botonCalcularSalarios.className = 'mostrar';
+        i++;
+    }
+    if (i === Number(document.querySelector('#cantidad-integrantes').value)) {
+        $botonAgregarSalario.className = 'ocultar';
+    }
+    event.preventDefault();
+}
+
 function agregarInputSalario() {
     const nuevoLabel = document.createElement('label');
     const textoLabel = document.createTextNode('Ingrese el salario anual del integrante: ');
@@ -284,58 +301,35 @@ function agregarInputSalario() {
     document.querySelector('#carga-informacion-salario').appendChild(saltoDeLinea);
 }
 
-const $botonAgregarSalario = document.querySelector('#agregar-salario');
-const $botonQuitarSalario = document.querySelector('#quitar-salario');
-const $botonCalcularSalarios = document.querySelector('#calcular-salarios');
-
-let i = 0; //la var i es la que me impide que se generen más campos que la cantidad de familiares que hay
-$botonAgregarSalario.onclick = function () {
-
-    document.querySelector('#carga-informacion-salario').className = 'mostrar';
-    $botonReiniciar.className = 'ocultar';
-
-    if (i < (document.querySelector('#cantidad-integrantes').value)) { //la var i es la que me impide que se generen más campos que la cantidad de familiares que hay
-
-        agregarInputSalario();
-        $botonQuitarSalario.className = 'mostrar';
-        $botonCalcularSalarios.className = 'mostrar';
-        i++;
-    }
-    if(i === Number(document.querySelector('#cantidad-integrantes').value)){
-        $botonAgregarSalario.className = 'ocultar';
-    }
-    return false;
-}
-
 $botonCalcularSalarios.onclick = function (event) {
     const todosLosSalarios = document.querySelectorAll('.salario'); //se crea un nodeList con todosLosSalarios ingresados
-    
-    if(validarSalarios(todosLosSalarios)){
-        document.querySelector('#muestra-informacion-salario').className = 'mostrar'; //style.display = 'inline';//se hace visible el div que contiene los párrafos que muestran el mayor, menor y los promedios de salario mensual y anual. 
-    
-    document.querySelector('#mayor-salario').textContent += calcularMayorSalarioAnual(todosLosSalarios);
-    document.querySelector('#menor-salario').textContent += calcularMenorSalarioAnual(todosLosSalarios);
-    document.querySelector('#salario-anual-promedio').textContent += calcularSalarioAnualPromedio(todosLosSalarios);
-    document.querySelector('#salario-mensual-promedio').textContent += calcularSalarioMensualPromedio(todosLosSalarios);
 
-    $botonCalcularSalarios.className = 'ocultar';
-    }
-    else{
+    if (validarSalarios(todosLosSalarios)) {
+        document.querySelector('#muestra-informacion-salario').className = 'mostrar'; //style.display = 'inline';//se hace visible el div que contiene los párrafos que muestran el mayor, menor y los promedios de salario mensual y anual. 
+        document.querySelector('#mayor-salario').textContent += calcularMayorSalarioAnual(todosLosSalarios);
+        document.querySelector('#menor-salario').textContent += calcularMenorSalarioAnual(todosLosSalarios);
+        document.querySelector('#salario-anual-promedio').textContent += calcularSalarioAnualPromedio(todosLosSalarios);
+        document.querySelector('#salario-mensual-promedio').textContent += calcularSalarioMensualPromedio(todosLosSalarios);
+
+        $botonCalcularSalarios.className = 'ocultar';
+    } else {
         alert('Por favor ingrese solo numeros');
         reiniciar();
     }
-    
-    if(todosLosSalarios[0] === undefined){
+
+    if (todosLosSalarios[0] === undefined) {
         alert('No se puede calcular');
         reiniciar();
     }
-    
+    $botonAgregarSalario.className = 'ocultar';
+    $botonQuitarSalario.className = 'ocultar';
+    $botonReiniciar.className = 'mostrar';
     event.preventDefault();
-    
+
 }
 
-function validarSalarios(todosLosSalarios){
-    
+function validarSalarios(todosLosSalarios) {
+
     let error = 0;
     todosLosSalarios.forEach(function (key) {
         if (key.value <= 0) {
@@ -344,13 +338,12 @@ function validarSalarios(todosLosSalarios){
     });
     if (error === 0) {
         return true;
-    }
-    else{
+    } else {
         return false;
     }
 }
 
-$botonQuitarSalario.onclick = function () {
+$botonQuitarSalario.onclick = function (event) {
     let cantidadDeSalarios = document.querySelectorAll('.salario').length;
 
     let $divConSalarios = document.querySelector('#carga-informacion-salario');
@@ -364,7 +357,7 @@ $botonQuitarSalario.onclick = function () {
     if (cantidadDeSalarios == 1) {
         $botonQuitarSalario.className = 'ocultar';
     }
-    return false;
+    event.preventDefault();
 }
 
 function resetearSalario() {
@@ -394,7 +387,6 @@ function comprobarCampoVacio(nodeListConSalarios) { //
         }
     }
     return nodeListConSalarios;*/
-
 
     let arregloDeSalarios = [];
     for (let i = 0; i < nodeListConSalarios.length; i++) {
